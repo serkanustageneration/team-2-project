@@ -47,8 +47,23 @@ try:
                             Store_id        interger
                             );
                             '''
+                            
+    create_orders_tabe = '''  CREATE TABLE orders (
+                            Payment_type	    varchar	NOT NULL,	
+                            Order_id	        INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+                            Customer_id	        int NOT NULL ,	
+                            Items_id	        int NOT NULL ,	
+                            Quantity 		    int NOT NULL ,
+                            Store_id	        int NOT NULL ,	
+                            Card_Number	        varchar NOT NULL
+                            
+                            
+                                
+                                    
+                                                                         )'''
+    
 
-    cur.execute(create_items_table, create_payment_table, create_customer_table)
+    cur.execute(create_items_table, create_payment_table, create_customer_table,create_orders_tabe)
 
     conn.commit()
 
