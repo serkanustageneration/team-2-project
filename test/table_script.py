@@ -26,7 +26,7 @@ try:
                             quantity 		    int NOT NULL ,
                             store_id	        int NOT NULL ,	
                             card_number	        varchar NOT NULL
-                            )'''
+                            );'''
 
     #Item table, stores all the item information. 
     #item_id need to be FK into order table
@@ -35,7 +35,7 @@ try:
                             item_name	    varchar	NOT NULL,
                             item_size	    varchar	NOT NULL,	
                             item_flavor     varchar NULL,	
-                            item_price		numeric NOT NULL)'''
+                            item_price		numeric NOT NULL);'''
                
     #Table of all cash payment, for future reference if needed for data visualisation.
     #need to pull the order_id from Order table.             
@@ -68,7 +68,7 @@ try:
                             (
                             customer_id	    SERIAL NOT NULL,
                             customer_name	varchar	NOT NULL,
-                            store_id        interger
+                            store_id        integer
                             );'''
     
     #Table of all store details, current just location of store.
@@ -80,8 +80,7 @@ try:
                             );'''
     
                             
-    cur.execute(create_orders_table, create_items_table, create_cash_payment_table,
-                create_card_payment_table, create_customer_table, create_store_table)
+    cur.execute(f'{create_orders_table} {create_items_table} {create_cash_payment_table}{create_card_payment_table} {create_customer_table}{ create_store_table}')
 
     conn.commit()
 
