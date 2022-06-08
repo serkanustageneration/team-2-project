@@ -17,31 +17,3 @@ try:
 
     cur = conn.cursor()
 
-    ceate_script = '''  CREATE TABLE orders (
-                            Payment_type	    varchar	NOT NULL,	
-                            Order_id	        INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-                            Customer_id	        int NOT NULL ,	
-                            Items_id	        int NOT NULL ,	
-                            Quantity 		    int NOT NULL ,
-                            Store_id	        int NOT NULL ,	
-                            Card_Number	        varchar NOT NULL
-                            
-                            
-                                
-                                    
-                                                                         )'''
-    
-    cur.execute(ceate_script)
-
-    conn.commit()
-
-except Exception as error:
-    print(error)
-
-finally:
-    if cur is  not None:
-        cur.close()
-    if conn is not None:
-        conn.close()
-
-
