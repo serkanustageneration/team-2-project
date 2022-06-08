@@ -1,4 +1,3 @@
-from unicodedata import numeric
 import psycopg2
 
 hostname = 'localhost'
@@ -18,12 +17,12 @@ try:
 
     cur = conn.cursor()
 
-    ceate_script = ''' CREATE TABLE store_table (
+    create_script = ''' CREATE TABLE store_table (
                             Store_ID        SERIAL NOT NULL PRIMARY KEY,
                             Store_name        	VARCHAR	NOT NULL)'''
                             	
-    cur.execute(ceate_script)
-
+    cur.execute(create_script)
+   
     conn.commit()
 
 except Exception as error:
