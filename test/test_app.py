@@ -1,3 +1,4 @@
+from unicodedata import numeric
 import psycopg2
 
 hostname = 'localhost'
@@ -17,15 +18,10 @@ try:
 
     cur = conn.cursor()
 
-    ceate_script = '''  CREATE TABLE test1 (
-                            Time_Stamp	    timestamp NOT NULL,	
-                            Store_Name	    varchar	NOT NULL,
-                            Customer_Name	varchar	NOT NULL,	
-                            Basket_Items	varchar	NOT NULL,	
-                            Total_Price		numeric NOT NULL,
-                            Cash_or_Card	varchar	NOT NULL,	
-                            Card_Number	    varchar)'''
-    
+    ceate_script = ''' CREATE TABLE store_table (
+                            Store_ID        SERIAL NOT NULL PRIMARY KEY,
+                            Store_name        	VARCHAR	NOT NULL)'''
+                            	
     cur.execute(ceate_script)
 
     conn.commit()
