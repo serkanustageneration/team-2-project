@@ -23,19 +23,17 @@ try:
                             customer_name	TEXT,
                             card_number	    text                          
                             );'''
-    conn.commit()
     
     ## create store table ## as ** store_df
     create_store_table = '''CREATE TABLE  store_df(
                             store_id     INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
                             store     	 TEXT
                             );'''
-    conn.commit() 
     
     ## create basket table ## as ** basket_df                     
     create_basket_table = '''CREATE TABLE  basket_df(
-                            product_id     	 integer,
                             order_id         integer,
+                            product_id     	 integer,
                             customer_id      integer,
                             store_id         integer,
                             time_stamp       text,
@@ -49,7 +47,6 @@ try:
                                 foreign key (store_id) 
                                 REFERENCES store_df (store_id)
                             );'''
-    conn.commit() 
     
     ## create products table ## as ** basket_df                     
     create_products_table = '''CREATE TABLE products_df(
@@ -58,13 +55,11 @@ try:
                             product_flavour    TEXT,  	
                             product_price	 TEXT
                             );'''
-    conn.commit()
     
     # executing tables 
     cur.execute(f' {create_customer_table}{create_store_table}{create_products_table}{create_basket_table}')
     print('tables have been created!!')
     conn.commit()
-
 
 except Exception as error:
     print(error)
