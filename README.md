@@ -1,5 +1,5 @@
 
-# What is this Project about?
+# What is this Project about? CI/CD
 We are making an ETL pipeline for a café that has hundreds of outlets across the country.
 
 Due to the demand the company is receiving, they need to figure out how they can best target new and returning customers, and also understand which products are selling well.
