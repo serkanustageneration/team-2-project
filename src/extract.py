@@ -7,10 +7,11 @@ import pandas as pd
 import psycopg2
 
 def df_connect():
-    hostname = 'localhost'
-    database = 'team-2_group-project'
-    username = 'root'
-    pwd = 'pass' 
+    hostname = 'redshiftcluster-8pp4d8ute2ly.cfahydnz3hic.eu-west-1.redshift.amazonaws.com:5439/dev'
+    database = 'dev_delon6_team2'
+    port = '5439'
+    username = 'awsuser'
+    s3 = 'delon6-team2-raw-data'
 
     conn = None
     cur = None
@@ -18,8 +19,9 @@ def df_connect():
         conn = psycopg2.connect(
             host = hostname,
             dbname = database,
+            port = port,
             user = username,
-            password = pwd
+            s3 = s3
         )
         return conn
     except Exception as error:
