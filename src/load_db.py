@@ -29,7 +29,9 @@ conn = psycopg2.connect(
     database="team-2_group-project", user='root', password='pass', host='127.0.0.1', port='5432'
 )
 
-execute_values(conn, customer_df, 'customer_df')
-execute_values(conn, products_df, 'products_df')
-execute_values(conn, store_df, 'store_df')
+def run_insert_db():
+    execute_values(conn, customer_df, 'customer_df')
+    execute_values(conn, products_df, 'products_df')
+    execute_values(conn, store_df, 'store_df')
+
 

@@ -38,5 +38,6 @@ conn = psycopg2.connect(
     database="team-2_group-project", user='root', password='pass', host='127.0.0.1', port='5432'
 )
 
-execute_values(conn, basket_df, 'basket_df')
+def run_insert_basket():
+    execute_values(conn, basket_df, 'basket_df')   
 

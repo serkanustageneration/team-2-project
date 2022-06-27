@@ -39,7 +39,8 @@ cursor = conn.cursor()
 FIELDNAMES =['timestamp','store','customer_name',
              'basket_items','total_price','cash_or_card','card_number']
 
-FILENAME = 'chesterfield.csv'
+# Need to connect this to s3 bucket somehow.
+FILENAME = r'csv\uppingham_10-06-2022_09-00-00.csv'
 
 data = pd.read_csv(FILENAME, names = FIELDNAMES)
 
