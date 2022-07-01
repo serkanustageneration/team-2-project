@@ -17,20 +17,21 @@ try:
 
     cur = conn.cursor()
     
-    ## create customer table ## as ** customer_df
+    ## create customer table ## as ** customer_table
     create_customer_table = '''CREATE TABLE IF NOT EXISTS customer_table(
                             customer_id     INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
                             customer_name	TEXT,
                             card_number	    text                          
                             );'''
     
-    ## create store table ## as ** store_df
+    ## create store table ## as ** store_table
     create_store_table = '''CREATE TABLE IF NOT EXISTS  store_table(
+
                             store_id     INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
                             store     	 TEXT
                             );'''
     
-    ## create basket table ## as ** basket_df                     
+    ## create basket table ## as ** basket_table
     create_basket_table = '''CREATE TABLE IF NOT EXISTS  basket_table(
                             order_id         integer,
                             product_id     	 integer,
@@ -48,7 +49,7 @@ try:
                                 REFERENCES store_table (store_id)
                             );'''
     
-    ## create product table ## as ** basket_df                     
+    ## create product table ## as ** product_table                    
     create_product_table = '''CREATE TABLE IF NOT EXISTS product_table(
                             product_id      INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
                             product_name	TEXT,
