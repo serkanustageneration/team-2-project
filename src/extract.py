@@ -6,19 +6,35 @@ import psycopg2
 
 
 def df_connect():
+<<<<<<< HEAD
     hostname = 'localhost'
     database = 'team-2_group-project'
     username = 'root'
     pwd = 'pass'
+=======
+    hostname = 'redshiftcluster-8pp4d8ute2ly.cfahydnz3hic.eu-west-1.redshift.amazonaws.com:5439/dev'
+    database = 'dev_delon6_team2'
+    port = '5439'
+    username = 'awsuser'
+    s3 = 'delon6-team2-raw-data'
+>>>>>>> 31cefe7d950d3dcbb6c5a777b954211194edd44a
 
     conn = None
     cur = None
     try:
         conn = psycopg2.connect(
+<<<<<<< HEAD
             host=hostname,
             dbname=database,
             user=username,
             password=pwd
+=======
+            host = hostname,
+            dbname = database,
+            port = port,
+            user = username,
+            s3 = s3
+>>>>>>> 31cefe7d950d3dcbb6c5a777b954211194edd44a
         )
         return conn
     except Exception as error:

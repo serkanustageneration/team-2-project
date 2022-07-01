@@ -11,7 +11,7 @@ print('Loading function')
 
 s3 = boto3.client('s3')
 
-
+#we need to execute our lambda from an event when a new file lands in S3.
 def lambda_handler(event, context):
     # print("Received event: " + json.dumps(event, indent=2))
 
@@ -23,9 +23,14 @@ def lambda_handler(event, context):
         print("CONTENT TYPE: " + response['ContentType'])
         # return response['ContentType']
         # filename = response
-        run_create_table()
-        run_insert_db()
-        run_insert_basket()
+        text = response["Body"].read().decode()
+        data = json.loads(text)
+        
+        for file in data:
+            run_create_table()
+            run_insert_db()
+            run_insert_basket()
+            
         return
 
     except Exception as e:
