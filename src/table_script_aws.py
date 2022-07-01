@@ -1,9 +1,10 @@
 import psycopg2
 
-hostname = 'localhost'
-database = 'team-2_group-project'
-username = 'root'
-pwd = 'pass'
+database = 'dev_delon6_team2'
+hostname = 'redshiftcluster-8pp4d8ute2ly.cfahydnz3hic.eu-west-1.redshift.amazonaws.com:5439/dev'
+port = '5439'
+username = 'awsuser'
+s3 = 'delon6-team2-raw-data' 
 
 conn = None
 cur = None
@@ -69,5 +70,4 @@ finally:
         cur.close()
     if conn is not None:
         conn.close()
-
 

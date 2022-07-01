@@ -32,12 +32,12 @@ def execute_values(conn, df, table):
         conn.rollback()
         cursor.close()
         return 1
-    print("the dataframe is inserted")
+    print("the latest order has been inserted")
   
 conn = psycopg2.connect(
     database="team-2_group-project", user='root', password='pass', host='127.0.0.1', port='5432'
 )
 
-def run_insert_basket():
-    execute_values(conn, basket_df, 'basket_df')   
+
+execute_values(conn, basket_df, 'basket_table')   
 
