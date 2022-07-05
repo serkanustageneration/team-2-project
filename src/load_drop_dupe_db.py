@@ -19,7 +19,6 @@ def load_store():
         conn.commit()
     print("Any new store will be inserted")
 
-load_store()
 
 def load_product():
     for x in products_df.values:
@@ -42,9 +41,6 @@ def load_product():
         conn.commit()
     print("Any new product will be inserted")
 
-load_product()
-
-
 def load_customer():
     for x in customer_df.values:
         sql = f'''CREATE TABLE temp_customer (customer_name text NOT NULL, card_number text NOT NULL);
@@ -64,5 +60,4 @@ def load_customer():
         cur.execute(sql)
         conn.commit()
     print("Any new customer will be inserted")
-    
-load_customer()
+

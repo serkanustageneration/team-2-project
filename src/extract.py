@@ -214,7 +214,7 @@ def create_basket_df():
     sql = \
         '''
         SELECT product_id, product_name, product_flavour
-        FROM product_table
+        FROM product_table;
         '''
     cur.execute(sql)
 
