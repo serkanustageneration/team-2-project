@@ -72,4 +72,3 @@ def create_table():
         if conn is not None:
             conn.close()
 
-

@@ -61,3 +61,8 @@ def load_customer():
         conn.commit()
     print("Any new customer will be inserted")
 
+def load_data():
+    load_product()
+    load_store()
+    load_customer()
+    
