@@ -1,38 +1,25 @@
-import psycopg2
+from src.extract import df_connect
 
-hostname = 'localhost'
-database = 'team-2_group-project'
-username = 'root'
-pwd = 'pass'
-
-conn = None
-cur = None
 
 def create_table():
+    conn = df_connect()
+    cur = conn.cursor()
     try:
-        conn = psycopg2.connect(
-            host=hostname,
-            dbname=database,
-            user=username,
-            password=pwd
-        )
 
-        cur = conn.cursor()
-        
         ## create customer table ## as ** customer_df
         create_customer_table = '''CREATE TABLE IF NOT EXISTS customer_table(
-                                customer_id     INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+                                customer_id     INT identity(1, 1) PRIMARY KEY NOT NULL,
                                 customer_name	TEXT,
                                 card_number	    text                          
                                 );'''
-        
+
         ## create store table ## as ** store_df
         create_store_table = '''CREATE TABLE IF NOT EXISTS  store_table(
-                                store_id     INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+                                store_id     INT identity(1, 1) PRIMARY KEY NOT NULL,
                                 store     	 TEXT
                                 );'''
-        
-        ## create basket table ## as ** basket_df                     
+
+        ## create basket table ## as ** basket_df
         create_basket_table = '''CREATE TABLE IF NOT EXISTS  basket_table(
                                 order_id         integer,
                                 product_id     	 integer,
@@ -49,17 +36,18 @@ def create_table():
                                     foreign key (store_id) 
                                     REFERENCES store_table (store_id)
                                 );'''
-        
-        ## create product table ## as ** basket_df                     
+
+        ## create product table ## as ** basket_df
         create_product_table = '''CREATE TABLE IF NOT EXISTS product_table(
-                                product_id      INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+                                product_id      INT identity(1, 1) PRIMARY KEY NOT NULL,
                                 product_name	TEXT,
                                 product_flavour    TEXT,  	
                                 product_price	 TEXT
                                 );'''
-        
-        # executing tables 
-        cur.execute(f' {create_customer_table}{create_store_table}{create_product_table}{create_basket_table}')
+
+        # executing tables
+        cur.execute(
+            f' {create_customer_table}{create_store_table}{create_product_table}{create_basket_table}')
         print('tables have been created!!')
         conn.commit()
 
@@ -71,4 +59,3 @@ def create_table():
             cur.close()
         if conn is not None:
             conn.close()
-

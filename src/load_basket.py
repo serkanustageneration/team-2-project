@@ -1,8 +1,8 @@
 import psycopg2
-import numpy as np
 import psycopg2.extras as extras
 
-from extract import *
+from src.extract import *
+
 
 def create_orders_df():
     """
@@ -19,6 +19,8 @@ def create_orders_df():
     #Query branch_ids and cust_ids from their tables and populate into orders_table
     branch_vals = [val for val in orders_df_without_ids['store']]
     branch_ids = []
+    conn = df_connect()
+    cur = conn.cursor()
     for branch_val in branch_vals:
         sql = \
             f'''
@@ -33,6 +35,8 @@ def create_orders_df():
 
     cust_vals = [val for val in orders_df_without_ids['customer_name']]
     cust_ids = []
+    conn = df_connect()
+    cur = conn.cursor()
     for cust_val in cust_vals:
         sql = \
             f'''
@@ -116,6 +120,7 @@ def create_basket_df():
 
     return basket_df
 
+
 basket_df = create_basket_df()
 order_df = create_orders_df()
 customer_id = order_df['cust_id']
@@ -124,31 +129,28 @@ time_stamp = data['timestamp']
 
 basket_df['customer_id'] = customer_id
 basket_df['store_id'] = store_id
-basket_df['time_stamp'] = time_stamp  
-  
-def execute_values(conn, df, table):
-  
+basket_df['time_stamp'] = time_stamp
+
+
+def execute_values(df, table):
+    conn = df_connect()
     tuples = [tuple(x) for x in df.to_numpy()]
-  
+
     cols = ','.join(list(df.columns))
     # SQL query to execute
-    
-    
+
     query = "INSERT INTO %s(%s) VALUES %%s" % (table, cols)
-    cursor = conn.cursor()
+    cur = conn.cursor()
     try:
-        extras.execute_values(cursor, query, tuples)
+        extras.execute_values(cur, query, tuples)
         conn.commit()
     except (Exception, psycopg2.DatabaseError) as error:
         print("Error: %s" % error)
         conn.rollback()
-        cursor.close()
+        cur.close()
         return 1
     print("the latest order has been inserted")
-  
-conn = psycopg2.connect(
-    database="team-2_group-project", user='root', password='pass', host='127.0.0.1', port='5432'
-)
+
 
 def load_basket():
-    execute_values(conn, basket_df, 'basket_table')   
+    execute_values(basket_df, 'basket_table')

@@ -3,43 +3,28 @@
 import pandas as pd
 import hashlib
 import psycopg2
+import boto3
 
 
 def df_connect():
-    hostname = 'localhost'
-    database = 'team-2_group-project'
-    username = 'root'
-    pwd = 'pass'
+    #ssm = boto3.client('ssm')
+    # parameter = ssm.get_parameter(
+    # Name='alternative-team4-pass', WithDecryption=True)
+    #mypassword = parameter['Parameter']['Value']
 
-    conn = None
-    cur = None
-    try:
-        conn = psycopg2.connect(
-            host=hostname,
-            dbname=database,
-            user=username,
-            password=pwd
-        )
-        return conn
-    except Exception as error:
-        print(error)
+    return psycopg2.connect(dbname="dev_delon6_team2",
+                            host="redshiftcluster-8pp4d8ute2ly.cfahydnz3hic.eu-west-1.redshift.amazonaws.com",
+                            port="5439",
+                            user="team_2",
+                            password="Team2password")
 
-    finally:
-        if cur is not None:
-            cur.close()
-        # if conn is not None:
-        #     conn.close()
-
-
-conn = df_connect()
-cur = conn.cursor()
 
 #reading csv
 FIELDNAMES = ['timestamp', 'store', 'customer_name',
               'basket_items', 'total_price', 'cash_or_card', 'card_number']
 
 # Need to connect this to s3 bucket somehow.
-FILENAME = r'csv\chesterfield_11-06-2022_09-00-00.csv'
+FILENAME = r'csv/chesterfield_11-06-2022_09-00-00.csv'
 
 data = pd.read_csv(FILENAME, names=FIELDNAMES)
 
@@ -69,7 +54,7 @@ def fetch_products():
     """
     #Split the basket_items col so that each row is a list
     items_series = data['basket_items'].apply(lambda x: x.split(", "))
-    
+
     #Load this pd.Series object into a pd.DataFrame. Unwanted column - dropped after transformation
     products_df = pd.DataFrame(items_series, columns=['basket_items'])
 
@@ -122,9 +107,6 @@ def create_products_df():
     return products_df
 
 
-#Fetch conn and cursor objects
-conn = df_connect()
-cur = conn.cursor()
 ### dataFrame ###
 customer_df = unique_customers_table()
 products_df = create_products_df()
