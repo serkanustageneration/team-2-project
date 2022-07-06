@@ -1,6 +1,9 @@
-from extract import *
+from src.extract import *
+
 
 def load_store():
+    conn = df_connect()
+    cur = conn.cursor()
     for x in store_df['store']:
         sql = f'''CREATE TABLE temp_data (store TEXT NOT NULL);
                 INSERT INTO temp_data(store) VALUES ('{x}');
@@ -19,9 +22,10 @@ def load_store():
         conn.commit()
     print("Any new store will be inserted")
 
-load_store()
 
 def load_product():
+    conn = df_connect()
+    cur = conn.cursor()
     for x in products_df.values:
         sql = f'''CREATE TABLE temp_product_table (product_name text NOT NULL, product_flavour text NOT NULL, product_price text NOT NULL);
                 INSERT INTO temp_product_table(product_name, product_flavour, product_price) VALUES ('{x[0]}', '{x[1]}', '{x[2]}');
@@ -42,10 +46,10 @@ def load_product():
         conn.commit()
     print("Any new product will be inserted")
 
-load_product()
-
 
 def load_customer():
+    conn = df_connect()
+    cur = conn.cursor()
     for x in customer_df.values:
         sql = f'''CREATE TABLE temp_customer (customer_name text NOT NULL, card_number text NOT NULL);
                 INSERT INTO temp_customer(customer_name, card_number) VALUES ('{x[0]}', '{x[1]}');
@@ -64,5 +68,9 @@ def load_customer():
         cur.execute(sql)
         conn.commit()
     print("Any new customer will be inserted")
-    
-load_customer()
+
+
+def load_data():
+    load_product()
+    load_store()
+    load_customer()
