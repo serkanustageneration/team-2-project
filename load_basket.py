@@ -151,6 +151,3 @@ def execute_values(df, table):
         return 1
     print("the latest order has been inserted")
 
-
-# def load_basket():
-#     execute_values(basket_df, 'basket_table')
