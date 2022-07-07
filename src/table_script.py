@@ -1,4 +1,4 @@
-from src.extract import df_connect
+from extract import df_connect
 
 
 def create_table():

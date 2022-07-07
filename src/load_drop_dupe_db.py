@@ -1,7 +1,7 @@
-from src.extract import *
+from extract import df_connect
 
 
-def load_store():
+def load_store(store_df):
     conn = df_connect()
     cur = conn.cursor()
     for x in store_df['store']:
@@ -23,7 +23,7 @@ def load_store():
     print("Any new store will be inserted")
 
 
-def load_product():
+def load_product(products_df):
     conn = df_connect()
     cur = conn.cursor()
     for x in products_df.values:
@@ -47,7 +47,7 @@ def load_product():
     print("Any new product will be inserted")
 
 
-def load_customer():
+def load_customer(customer_df):
     conn = df_connect()
     cur = conn.cursor()
     for x in customer_df.values:
@@ -70,7 +70,7 @@ def load_customer():
     print("Any new customer will be inserted")
 
 
-def load_data():
-    load_product()
-    load_store()
-    load_customer()
+# def load_data():
+#     load_product()
+#     load_store()
+#     load_customer()

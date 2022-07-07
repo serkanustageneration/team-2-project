@@ -3,15 +3,9 @@
 import pandas as pd
 import hashlib
 import psycopg2
-import boto3
 
 
 def df_connect():
-    #ssm = boto3.client('ssm')
-    # parameter = ssm.get_parameter(
-    # Name='alternative-team4-pass', WithDecryption=True)
-    #mypassword = parameter['Parameter']['Value']
-
     return psycopg2.connect(dbname="dev_delon6_team2",
                             host="redshiftcluster-8pp4d8ute2ly.cfahydnz3hic.eu-west-1.redshift.amazonaws.com",
                             port="5439",
@@ -20,13 +14,13 @@ def df_connect():
 
 
 #reading csv
-FIELDNAMES = ['timestamp', 'store', 'customer_name',
-              'basket_items', 'total_price', 'cash_or_card', 'card_number']
+# FIELDNAMES = ['timestamp', 'store', 'customer_name',
+#               'basket_items', 'total_price', 'cash_or_card', 'card_number']
 
-# Need to connect this to s3 bucket somehow.
-FILENAME = r'csv/chesterfield_11-06-2022_09-00-00.csv'
+# # Need to connect this to s3 bucket somehow.
+# FILENAME = r'csv/chesterfield_11-06-2022_09-00-00.csv'
 
-data = pd.read_csv(FILENAME, names=FIELDNAMES)
+# data = pd.read_csv(FILENAME, names=FIELDNAMES)
 
 
 ## hashing values function
@@ -40,20 +34,22 @@ def hash_value(x):
         return None
 
 # creating Clean customers_table **hashed**
-def unique_customers_table():
-    unhashed_cus_df = data[["customer_name", "card_number"]].drop_duplicates()
+
+
+def unique_customers_table(df):
+    unhashed_cus_df = df[["customer_name", "card_number"]].drop_duplicates()
     hashed_cus_df = unhashed_cus_df.applymap(lambda x: hash_value(str(x)))
     return hashed_cus_df
 
 
 ### Transform basket  ###
-def fetch_products():
+def fetch_products(df):
     """
     - Returns a df with all products and details in the raw data
     - Must be transformed
     """
     #Split the basket_items col so that each row is a list
-    items_series = data['basket_items'].apply(lambda x: x.split(", "))
+    items_series = df['basket_items'].apply(lambda x: x.split(", "))
 
     #Load this pd.Series object into a pd.DataFrame. Unwanted column - dropped after transformation
     products_df = pd.DataFrame(items_series, columns=['basket_items'])
@@ -67,11 +63,11 @@ def fetch_products():
 ## creating products function
 
 
-def create_products_df():
+def create_products_df(df):
     """
     - Returns a df which transforms the unique products and details
     """
-    products_df = fetch_products()
+    products_df = fetch_products(df)
 
     #Get unique products
     products_df = products_df.drop_duplicates(ignore_index=True)
@@ -108,6 +104,6 @@ def create_products_df():
 
 
 ### dataFrame ###
-customer_df = unique_customers_table()
-products_df = create_products_df()
-store_df = pd.DataFrame(data['store'].unique(), columns=['store'])
+# customer_df = unique_customers_table()
+# products_df = create_products_df()
+# store_df = pd.DataFrame(data['store'].unique(), columns=['store'])
