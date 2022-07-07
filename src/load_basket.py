@@ -1,17 +1,17 @@
 import psycopg2
 import psycopg2.extras as extras
 
-from src.extract import *
+from extract import *
 
 
-def create_orders_df():
+def create_orders_df(df):
     """
     - Returns a df containing orders and the accompanying information
     - branch_id and cust_id columns rely on data which has to be loaded into 
     the db first (for the queries)
     """
-    orders_df_without_ids = data[['timestamp', 'store',
-                                  'customer_name', 'cash_or_card', 'card_number']]
+    orders_df_without_ids = df[['timestamp', 'store',
+                                'customer_name', 'cash_or_card', 'card_number']]
 
     #Check for duplicates
     orders_df_without_ids = orders_df_without_ids.drop_duplicates()
@@ -61,12 +61,12 @@ def create_orders_df():
     return orders_df
 
 
-def create_basket_df():
+def create_basket_df(df):
     """
     - Returns a df containing individual products from each order
     - cols: order_id, product_id
     """
-    products_df = fetch_products()
+    products_df = fetch_products(df)
 
     #Create order_id for every product in each order
     products_df['order_id'] = products_df.index
@@ -121,15 +121,15 @@ def create_basket_df():
     return basket_df
 
 
-basket_df = create_basket_df()
-order_df = create_orders_df()
-customer_id = order_df['cust_id']
-store_id = order_df['branch_id']
-time_stamp = data['timestamp']
+# basket_df = create_basket_df()
+# order_df = create_orders_df()
+# customer_id = order_df['cust_id']
+# store_id = order_df['branch_id']
+# time_stamp = data['timestamp']
 
-basket_df['customer_id'] = customer_id
-basket_df['store_id'] = store_id
-basket_df['time_stamp'] = time_stamp
+# basket_df['customer_id'] = customer_id
+# basket_df['store_id'] = store_id
+# basket_df['time_stamp'] = time_stamp
 
 
 def execute_values(df, table):
@@ -152,5 +152,5 @@ def execute_values(df, table):
     print("the latest order has been inserted")
 
 
-def load_basket():
-    execute_values(basket_df, 'basket_table')
+# def load_basket():
+#     execute_values(basket_df, 'basket_table')
